@@ -76,7 +76,7 @@ def visualize(tree, xsize=10, ysize=10, title="Quad Tree Visualization"):
 
 def visualize_insertion(points, capacity=4, fps=15, max_frames_in_memory=200):
     now = datetime.now()
-    save_dir = now.strftime("%m%d%Y_%H%M%S") + "_" + (uuid.uuid4().hex[:5])
+    save_dir = "video_" + now.strftime("%m%d%Y_%H%M%S") + "_" + (uuid.uuid4().hex[:5])
     save_path = os.path.join(os.getcwd(), save_dir)
     os.makedirs(save_path, exist_ok=True)
 

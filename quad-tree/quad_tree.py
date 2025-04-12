@@ -27,13 +27,19 @@ class Point(object):
         self.x = x
         self.y = y
         self.data = data
-
-    def __repr__(self):
+        self.structure_name = None
         structure_name_new_name, structure_name_old_name = None, None
         if self.data is not None:
             structure_name_new_name = self.data.get("name")
             structure_name_old_name = self.data.get("old_name")
-        return "<Point: ({}, {}, {}, {})>".format(self.x, self.y, structure_name_new_name, structure_name_old_name)
+
+        if structure_name_old_name and len(structure_name_old_name) > 0:
+            self.structure_name = structure_name_old_name
+        else:
+            self.structure_name = structure_name_new_name
+
+    def __repr__(self):
+        return "<Point: ({}, {}, {})>".format(self.x, self.y, self.structure_name)
 
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
@@ -502,36 +508,7 @@ class QuadTree(object):
         Returns:
             list: The nearest `Point` neighbors.
         """
-        # Algorithm description:
-        # * Search down to find the smallest node around the desired point,
-        #   retaining a stack of nodes visited on the way down.
-        # * Reverse the visited stack, so that it's now in
-        #   smallest/closest-to-largest/furthest order.
-        # * Iterate over the node stack.
-        #   * Collect the points from the current node & it's children.
-        #   * Sort the points by euclidean distance, using
-        #     `euclidean_compare`, since the actual distance doesn't matter
-        #     for now.
-        #   * Add them to the "found" results.
-        #   * If the "found" count is greater-than-or-equal to the desired
-        #     count, break out of the loop.
-        # * If the stack is exhausted, we have all the points in the entire
-        #   quadtree & can just return them.
-        # * Otherwise, we now have a decent set of results, ordered by
-        #   distance. But we are not done. It's possible/probable that there
-        #   are other nearby quadnodes that weren't touched by the search
-        #   BUT are physically closer.
-        # * Take our furthest point and use it as a radius for a search
-        #   "circle".
-        #     * We'll actually just create a bounding box, which is
-        #       computationally cheaper & we already have methods that
-        #       support it.
-        #     * Using that radius as a distance to the *edge* (not a corner),
-        #       we create a box big enough to fit the search circle.
-        # * Collect all the points within that bounding box.
-        # * Re-sort them by euclidean distance (again, using
-        #   `euclidean_compare`).
-        # * Slice it to match the desired count & return them.
+       
 
         point = self.convert_to_point(point)
         nearest_results = []

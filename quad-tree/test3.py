@@ -1,3 +1,8 @@
+# QT Insertion Process time
+# QT Point Search time
+# QT Nearest Neighbor Search 
+# QT Bounding Box Search 
+
 import time
 import os
 import matplotlib.pyplot as plt
